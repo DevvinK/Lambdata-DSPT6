@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas import DatetimeIndex
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_wine
 from pdb import set_trace as breakpoint
@@ -72,6 +73,20 @@ class My_Data_Splitter():
         display(X_test.describe(include='all').transpose())
         print('')
 
+def null_check(df):
+   return df[df.isnull().any(axis=1)]
+
+def date_divider(df,date_col):
+    '''
+         Param df: dataframe object from the Pandas library, entire dataframe where the date_column is located is required
+         Param date_col: String value of the name of the date_column to be looked up in the passed dataframe
+         Return: modified dataframe with the new Year, Month, and Day columns attached to the end.
+    '''
+    converted_df = df.copy()
+    converted_df["Year"] = pd.DatetimeIndex(converted_df[date_col]).year
+    converted_df["Month"] = pd.DatetimeIndex(converted_df[date_col]).month
+    converted_df["Day"] = pd.DatetimeIndex(converted_df[date_col]).day
+    return converted_df
 
 if __name__ == '__main__':
     # Test the enlarge function
